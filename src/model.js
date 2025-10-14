@@ -13,12 +13,38 @@ export default class Model {
   }
 
   getSummary() {
-    // Return a comprehensive summary using the module's API
+    // Return a summary using the module's API
+    const computeProductSafely = (arr) => {
+      if (!arr || arr.length === 0) return null;
+      // try straightforward multiplication first
+      let prod = 1;
+      for (let v of arr) {
+        prod *= v;
+        if (!Number.isFinite(prod)) {
+          // If any value is 0, product is 0.
+          if (arr.some(x => x === 0)) return 0;
+          let sumLog10 = 0;
+          let sign = 1;
+          for (let x of arr) {
+            if (x < 0) sign *= -1;
+            sumLog10 += Math.log10(Math.abs(x));
+          }
+          const exp = Math.floor(sumLog10);
+          const mant = Math.pow(10, sumLog10 - exp);
+          // return readable scientific string with limited precision
+          return (sign < 0 ? '-' : '') + mant.toPrecision(6) + 'e+' + exp;
+        }
+      }
+      return prod;
+    };
+
+    const productSafe = computeProductSafely(this._raw);
+
     return {
       count: this._calc.count(),
       sum: this._calc.sum(),
       sumOfSquares: this._calc.sumOfSquares ? this._calc.sumOfSquares() : null,
-      product: this._calc.product ? this._calc.product() : null,
+      product: productSafe,
       mean: this._calc.mean(),
       meanAbsolute: this._calc.meanAbsolute ? this._calc.meanAbsolute() : null,
       median: this._calc.median(),
