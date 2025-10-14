@@ -16,14 +16,40 @@
         <section class="input">
           <label for="dataInput">Enter numbers (comma separated):</label>
           <input id="dataInput" type="text" placeholder="e.g. 1,2,3,4,5" />
-          <div class="buttons">
-            <button id="calcBtn">Calculate</button>
-            <button id="clearBtn">Clear</button>
+          <div class="row">
+            <div class="buttons">
+              <button id="calcBtn">Calculate</button>
+              <button id="clearBtn">Clear</button>
+            </div>
+            <div class="file">
+              <label for="fileInput" class="fileLabel">Upload CSV</label>
+              <input id="fileInput" type="file" accept="text/csv" />
+            </div>
+          </div>
+        </section>
+
+        <section class="controls">
+          <div class="history">
+            <h3>Datasets</h3>
+            <select id="datasetList" size="5"></select>
+            <div class="historyButtons">
+              <button id="useSelected">Use selected</button>
+              <button id="exportBtn">Export JSON</button>
+            </div>
+          </div>
+
+          <div class="metrics">
+            <h3>Metrics</h3>
+            <label><input type="checkbox" data-metric="mean" checked /> Mean</label>
+            <label><input type="checkbox" data-metric="median" checked /> Median</label>
+            <label><input type="checkbox" data-metric="stdDev" checked /> Std Dev</label>
+            <label><input type="checkbox" data-metric="iqr" checked /> IQR</label>
           </div>
         </section>
 
         <section class="results" id="results">
           <!-- Results injected by view -->
+          <canvas id="histogramCanvas" width="600" height="200"></canvas>
         </section>
       </main>
 

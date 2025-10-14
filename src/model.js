@@ -3,11 +3,13 @@ import StatisticsCalculator from 'basic-statistics-calculator';
 export default class Model {
   constructor() {
     this._calc = new StatisticsCalculator();
+    this._raw = [];
   }
 
   setData(array) {
     this._calc.clearData();
     this._calc.addData(array);
+    this._raw = array.slice();
   }
 
   getSummary() {
@@ -22,5 +24,9 @@ export default class Model {
       q3: this._calc.q3(),
       iqr: this._calc.iqr()
     };
+  }
+
+  getRaw() {
+    return this._raw.slice();
   }
 }
