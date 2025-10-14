@@ -34,7 +34,9 @@ export default class Controller {
       this.model.setData(nums);
       const summary = this.model.getSummary();
       this.view.addDataset(`Manual ${new Date().toLocaleString()}`, nums.slice());
-      this.view.renderSummary(summary);
+      const filtered = this._buildFilteredSummary(summary);
+      if (!filtered) return; // _buildFilteredSummary shows an error if needed
+      this.view.renderSummary(filtered);
       this.view.drawHistogram(nums);
     } catch (err) {
       this.view.showError(err.message || 'Invalid input');
@@ -55,14 +57,18 @@ export default class Controller {
     this.model.setData(nums);
     const summary = this.model.getSummary();
     this.view.addDataset(`CSV ${new Date().toLocaleString()}`, nums.slice());
-    this.view.renderSummary(summary);
+    const filtered = this._buildFilteredSummary(summary);
+    if (!filtered) return;
+    this.view.renderSummary(filtered);
     this.view.drawHistogram(nums);
   }
 
   handleUseSelected(dataset) {
     this.model.setData(dataset.array);
     const summary = this.model.getSummary();
-    this.view.renderSummary(summary);
+    const filtered = this._buildFilteredSummary(summary);
+    if (!filtered) return;
+    this.view.renderSummary(filtered);
     this.view.drawHistogram(dataset.array);
   }
 
@@ -101,5 +107,19 @@ export default class Controller {
     filtered[`p${p}`] = val;
 
     this.view.renderSummary(filtered);
+  }
+
+  _buildFilteredSummary(summary) {
+    if (!this.view || typeof this.view.selectedMetrics !== 'function') {
+      return summary; // no metric UI available, return full summary
+    }
+    const selected = this.view.selectedMetrics();
+    if (!selected || selected.length === 0) {
+      this.view.showError('Please select at least one metric to display.');
+      return null;
+    }
+    const filtered = {};
+    selected.forEach(m => { if (m in summary) filtered[m] = summary[m]; });
+    return filtered;
   }
 }
