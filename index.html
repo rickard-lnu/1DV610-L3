@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Statistics App (L3)</title>
+    <link rel="stylesheet" href="/src/styles.css">
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>Statistics Calculator (L3 App)</h1>
+      </header>
+
+      <main>
+        <section class="input">
+          <label for="dataInput">Enter numbers (comma separated):</label>
+          <input id="dataInput" type="text" placeholder="e.g. 1,2,3,4,5" />
+          <div class="buttons">
+            <button id="calcBtn">Calculate</button>
+            <button id="clearBtn">Clear</button>
+          </div>
+        </section>
+
+        <section class="results" id="results">
+          <!-- Results injected by view -->
+        </section>
+      </main>
+
+      <footer>
+        <small>Built with basic-statistics-calculator</small>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

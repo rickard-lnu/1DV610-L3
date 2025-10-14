@@ -1,5 +1,20 @@
 {
+  "name": "ldv610-l3",
+  "version": "1.0.0",
+  "description": "L3 App which uses basic-statistics-calculator module (MVC, deployable to Netlify)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
     "basic-statistics-calculator": "^1.0.3"
+  },
+  "devDependencies": {
+    "vite": "^5.1.0"
   }
 }
