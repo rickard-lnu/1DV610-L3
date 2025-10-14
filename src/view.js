@@ -11,6 +11,8 @@ export default class View {
     this.metricCheckboxes = Array.from(document.querySelectorAll('[data-metric]'));
     this.histogramCanvas = document.getElementById('histogramCanvas');
     this._datasets = [];
+    this.percentileInput = document.getElementById('percentileInput');
+    this.percentileBtn = document.getElementById('percentileBtn');
   }
 
   bindCalculate(handler) {
@@ -61,6 +63,14 @@ export default class View {
 
   bindMetricChange(handler) {
     this.metricCheckboxes.forEach(cb => cb.addEventListener('change', () => handler(this.selectedMetrics())));
+  }
+
+  bindPercentile(handler) {
+    if (!this.percentileBtn) return;
+    this.percentileBtn.addEventListener('click', () => {
+      const p = Number(this.percentileInput.value);
+      handler(p);
+    });
   }
 
   selectedMetrics() {
@@ -116,26 +126,13 @@ export default class View {
   }
 
   renderSummary(summary) {
-    if (!summary) {
+    if (!summary || Object.keys(summary).length === 0) {
       this.results.innerHTML = '<p>No data</p>';
       return;
     }
 
-    const html = `
-      <h2>Results</h2>
-      <ul>
-        <li>Count: ${summary.count}</li>
-        <li>Mean: ${summary.mean}</li>
-        <li>Median: ${summary.median}</li>
-        <li>Std Dev: ${summary.stdDev}</li>
-        <li>Range: ${summary.range}</li>
-        <li>Sum: ${summary.sum}</li>
-        <li>Q1: ${summary.q1}</li>
-        <li>Q3: ${summary.q3}</li>
-        <li>IQR: ${summary.iqr}</li>
-      </ul>
-    `;
-
+    const rows = Object.keys(summary).map(k => `<li><strong>${k}:</strong> ${Array.isArray(summary[k]) ? JSON.stringify(summary[k]) : summary[k]}</li>`).join('\n');
+    const html = `\n      <h2>Results</h2>\n      <ul>\n        ${rows}\n      </ul>\n    `;
     this.results.innerHTML = html;
   }
 

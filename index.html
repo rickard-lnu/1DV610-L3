@@ -40,10 +40,27 @@
 
           <div class="metrics">
             <h3>Metrics</h3>
+            <label><input type="checkbox" data-metric="count" checked /> Count</label>
+            <label><input type="checkbox" data-metric="sum" checked /> Sum</label>
+            <label><input type="checkbox" data-metric="sumOfSquares" /> Sum of Squares</label>
+            <label><input type="checkbox" data-metric="product" /> Product</label>
             <label><input type="checkbox" data-metric="mean" checked /> Mean</label>
+            <label><input type="checkbox" data-metric="meanAbsolute" /> Mean Absolute</label>
             <label><input type="checkbox" data-metric="median" checked /> Median</label>
+            <label><input type="checkbox" data-metric="mode" /> Mode</label>
+            <label><input type="checkbox" data-metric="min" /> Min</label>
+            <label><input type="checkbox" data-metric="max" /> Max</label>
+            <label><input type="checkbox" data-metric="range" /> Range</label>
+            <label><input type="checkbox" data-metric="variance" /> Variance</label>
             <label><input type="checkbox" data-metric="stdDev" checked /> Std Dev</label>
             <label><input type="checkbox" data-metric="iqr" checked /> IQR</label>
+            <label><input type="checkbox" data-metric="happinessIndex" /> Happiness Index</label>
+
+            <div class="percentile">
+              <label for="percentileInput">Percentile (0-100):</label>
+              <input id="percentileInput" type="number" min="0" max="100" value="50" />
+              <button id="percentileBtn">Show Percentile</button>
+            </div>
           </div>
         </section>
 

@@ -9,6 +9,7 @@ export default class Controller {
     this.view.bindUseSelected(this.handleUseSelected.bind(this));
     this.view.bindExport(this.handleExport.bind(this));
     this.view.bindMetricChange(this.handleMetricChange.bind(this));
+    this.view.bindPercentile(this.handlePercentile.bind(this));
   }
 
   parseInput(raw) {
@@ -76,5 +77,14 @@ export default class Controller {
     const filtered = {};
     metrics.forEach(m => { if (m in summary) filtered[m] = summary[m]; });
     this.view.renderSummary(filtered);
+  }
+
+  handlePercentile(p) {
+    if (typeof p !== 'number' || p < 0 || p > 100) {
+      this.view.showError('Percentile must be a number between 0 and 100');
+      return;
+    }
+    const val = this.model.getPercentile(p);
+    this.view.renderSummary({ [`p${p}`]: val });
   }
 }
