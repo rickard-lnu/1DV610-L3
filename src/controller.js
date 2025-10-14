@@ -84,7 +84,22 @@ export default class Controller {
       this.view.showError('Percentile must be a number between 0 and 100');
       return;
     }
+
     const val = this.model.getPercentile(p);
-    this.view.renderSummary({ [`p${p}`]: val });
+
+    // Get the currently selected metrics from the view (if available)
+    const summary = this.model.getSummary() || {};
+    const selected = (this.view && typeof this.view.selectedMetrics === 'function') ? this.view.selectedMetrics() : Object.keys(summary);
+
+    // Build filtered summary containing only selected metrics
+    const filtered = {};
+    selected.forEach(m => {
+      if (m in summary) filtered[m] = summary[m];
+    });
+
+    // Add the percentile value alongside the filtered metrics
+    filtered[`p${p}`] = val;
+
+    this.view.renderSummary(filtered);
   }
 }
