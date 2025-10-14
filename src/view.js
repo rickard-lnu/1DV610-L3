@@ -131,7 +131,13 @@ export default class View {
       return;
     }
 
-    const rows = Object.keys(summary).map(k => `<li><strong>${k}:</strong> ${Array.isArray(summary[k]) ? JSON.stringify(summary[k]) : summary[k]}</li>`).join('\n');
+    const rows = Object.keys(summary).map(k => {
+      const val = Array.isArray(summary[k]) ? JSON.stringify(summary[k]) : summary[k];
+      const isPercentile = /^p\d+(?:\.\d+)?$/.test(k);
+      const cls = isPercentile ? 'percentile' : '';
+      return `<li class="${cls}"><strong>${k}:</strong> <span class="value">${val}</span></li>`;
+    }).join('\n');
+
     const html = `\n      <h2>Results</h2>\n      <ul>\n        ${rows}\n      </ul>\n    `;
     this.results.innerHTML = html;
   }

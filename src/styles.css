@@ -83,3 +83,18 @@ button{
     color:#b91c1c
 }
 
+/* Results styling improvements */
+.results h2{margin:0 0 .5rem;color:#064e3b}
+.results ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem}
+.results li{background:linear-gradient(180deg,#ffffff,#fbfdfe);padding:.6rem;border-radius:8px;border:1px solid #e6eef0;box-shadow:0 4px 10px rgba(12,74,110,0.03)}
+.results li strong{display:block;font-size:.9rem;color:#083344;margin-bottom:.25rem}
+.results li span.value{font-weight:700;color:#0b5346}
+
+/* Highlight percentile entries (keys starting with 'p') */
+.results li.percentile{border-left:4px solid #f59e0b}
+.results li.percentile strong{color:#92400e}
+
+/* Make histogram stand out */
+.results canvas{border-radius:6px;border:1px solid #e6eef0;box-shadow:0 6px 20px rgba(2,6,23,0.04)}
+
+
