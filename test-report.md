@@ -335,7 +335,7 @@ All 10 requirements have been verified through manual tests, and all have passed
 2. **CSV parsing:**
    - Simple regex-based parsing
    - May fail with complex CSV formats (quoted fields, etc.)
-   - **Remedy:** Use simple CSV files, or consider the PapaParse library
+   - **Remedy:** Use simple CSV files, or maybe using some library
 
 3. **No automated tests:**
    - Manual testing only
@@ -346,19 +346,18 @@ All 10 requirements have been verified through manual tests, and all have passed
 **Status:** ✅ All requirements met
 
 **Test results:**
-- 10/10 test cases passed
+- All test cases passed
 - Edge cases handled correctly
 - No critical bugs
 
-**Recommendations for future development:**
+**For future development:**
 1. Add automated unit tests
 2. Improve CSV parsing with a robust library
 3. Add mode fallback for large datasets
-4. Implement localStorage for persistent history
 5. Add tooltips/help text for metrics
 
 ---
 
 **Tester:**  
-[Your name]  
-[Date]
+Rickard M
+
