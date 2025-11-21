@@ -2,12 +2,12 @@
 
 **Project:** Statistics Calculator (L3)  
 **Tester:** Rickard M  
-**Date:** 2025-11-18  
+**Last updated:** 2025-11-21  
 **Version:** 1.0.0
 
 ## Summary
 
-All 10 requirements have been verified through manual tests, and all have passed. The application works as expected and handles both normal scenarios and edge cases correctly.
+All 9 requirements have been verified through manual tests, and all have passed. The application works as expected and handles both normal scenarios and edge cases correctly.
 
 ## Test Environment
 
