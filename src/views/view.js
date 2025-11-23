@@ -1,4 +1,8 @@
+/**
+ * View: DOM interaction & rendering. Maintains dataset history only.
+ */
 export default class View {
+  /** Initialize DOM references. */
   constructor() {
     this.input = document.getElementById('dataInput');
     this.results = document.getElementById('results');
@@ -15,6 +19,7 @@ export default class View {
     this.percentileBtn = document.getElementById('percentileBtn');
   }
 
+  /** Bind calculate button. */
   bindCalculate(handler) {
     this.calcBtn.addEventListener('click', () => {
       const raw = this.input.value;
@@ -22,6 +27,7 @@ export default class View {
     });
   }
 
+  /** Bind clear button. */
   bindClear(handler) {
     this.clearBtn.addEventListener('click', () => {
       this.input.value = '';
@@ -30,21 +36,20 @@ export default class View {
     });
   }
 
+  /** Bind file input for CSV uploads. */
   bindFile(handler) {
     if (!this.fileInput) return;
     this.fileInput.addEventListener('change', (ev) => {
       const f = ev.target.files && ev.target.files[0];
       if (!f) return;
       const reader = new FileReader();
-      reader.onload = () => {
-        handler(reader.result);
-      };
+      reader.onload = () => { handler(reader.result); };
       reader.readAsText(f);
-      // clear file input so same file can be re-selected
       ev.target.value = '';
     });
   }
 
+  /** Bind dataset selection usage. */
   bindUseSelected(handler) {
     this.useSelectedBtn.addEventListener('click', () => {
       const idx = this.datasetList.selectedIndex;
@@ -53,6 +58,7 @@ export default class View {
     });
   }
 
+  /** Bind export button. */
   bindExport(handler) {
     this.exportBtn.addEventListener('click', () => {
       const idx = this.datasetList.selectedIndex;
@@ -61,10 +67,12 @@ export default class View {
     });
   }
 
+  /** Bind metric checkbox changes. */
   bindMetricChange(handler) {
     this.metricCheckboxes.forEach(cb => cb.addEventListener('change', () => handler(this.selectedMetrics())));
   }
 
+  /** Bind percentile button. */
   bindPercentile(handler) {
     if (!this.percentileBtn) return;
     this.percentileBtn.addEventListener('click', () => {
@@ -73,10 +81,12 @@ export default class View {
     });
   }
 
+  /** Get selected metric keys. */
   selectedMetrics() {
     return this.metricCheckboxes.filter(cb => cb.checked).map(cb => cb.getAttribute('data-metric'));
   }
 
+  /** Add dataset to history & dropdown. */
   addDataset(label, array) {
     this._datasets.push({ label, array });
     const opt = document.createElement('option');
@@ -84,6 +94,7 @@ export default class View {
     this.datasetList.appendChild(opt);
   }
 
+  /** Trigger JSON download of dataset. */
   exportJSON(dataset) {
     const blob = new Blob([JSON.stringify(dataset, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -94,13 +105,12 @@ export default class View {
     URL.revokeObjectURL(url);
   }
 
+  /** Draw simple fixed-bin histogram. */
   drawHistogram(values) {
     if (!this.histogramCanvas) return;
     const ctx = this.histogramCanvas.getContext('2d');
     ctx.clearRect(0,0,this.histogramCanvas.width,this.histogramCanvas.height);
     if (!values || values.length === 0) return;
-
-    // simple binning
     const min = Math.min(...values);
     const max = Math.max(...values);
     const bins = 10;
@@ -110,12 +120,10 @@ export default class View {
       const i = Math.min(bins - 1, Math.floor((v - min) / binSize));
       counts[i]++;
     });
-
     const w = this.histogramCanvas.width;
     const h = this.histogramCanvas.height;
     const barW = w / bins;
     const maxCount = Math.max(...counts);
-
     ctx.fillStyle = '#0ea5a0';
     counts.forEach((c, i) => {
       const barH = (c / maxCount) * (h - 20);
@@ -125,23 +133,23 @@ export default class View {
     });
   }
 
+  /** Render metric summary list (percentiles highlighted). */
   renderSummary(summary) {
     if (!summary || Object.keys(summary).length === 0) {
       this.results.innerHTML = '<p>No data</p>';
       return;
     }
-
     const rows = Object.keys(summary).map(k => {
       const val = Array.isArray(summary[k]) ? JSON.stringify(summary[k]) : summary[k];
       const isPercentile = /^p\d+(?:\.\d+)?$/.test(k);
       const cls = isPercentile ? 'percentile' : '';
       return `<li class="${cls}"><strong>${k}:</strong> <span class="value">${val}</span></li>`;
     }).join('\n');
-
     const html = `\n      <h2>Results</h2>\n      <ul>\n        ${rows}\n      </ul>\n    `;
     this.results.innerHTML = html;
   }
 
+  /** Show error message in results area. */
   showError(message) {
     this.results.innerHTML = `<p class="error">${message}</p>`;
   }
